@@ -11,7 +11,7 @@ class ApiEndpoint(object):
         self.callback = pattern.callback
         # self.name = pattern.name
         self.docstring = self.__get_docstring__()
-        self.name_parent = simplify_regex(parent_pattern.regex.pattern).strip('/') if parent_pattern else None
+        self.name_parent = simplify_regex(parent_pattern.pattern.regex.pattern).strip('/') if parent_pattern else None
         self.path = self.__get_path__(parent_pattern)
         self.allowed_methods = self.__get_allowed_methods__()
         # self.view_name = pattern.callback.__name__
@@ -22,8 +22,8 @@ class ApiEndpoint(object):
 
     def __get_path__(self, parent_pattern):
         if parent_pattern:
-            return "/{0}{1}".format(self.name_parent, simplify_regex(self.pattern.regex.pattern))
-        return simplify_regex(self.pattern.regex.pattern)
+            return "/{0}{1}".format(self.name_parent, simplify_regex(self.pattern.pattern.regex.pattern))
+        return simplify_regex(self.pattern.pattern.regex.pattern)
 
     def __get_allowed_methods__(self):
         return [force_str(m).upper() for m in self.callback.cls.http_method_names if hasattr(self.callback.cls, m)]
